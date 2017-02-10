@@ -13,6 +13,7 @@ router.get('/new',isLoggedIn,function(req,res) {
     });
 });
 
+//comments create
 router.post('/',isLoggedIn,function(req,res) {
     //lookup campground using id
     Campground.findById(req.params.id,function(err,campground) {
@@ -20,14 +21,20 @@ router.post('/',isLoggedIn,function(req,res) {
             console.log(err);
             res.redirect("/campgrounds");
         } else {
-            console.log(req.body.comment);
+            // console.log(req.body.comment);
             //create new comment
             Comment.create(req.body.comment,function(err,comment) {
                 if(err) {
                     console.log(err);
                 } else {
+                    //add username and id to comment
+                    comment.author.id = req.user._id;
+                    comment.author.username = req.user.username;
+                    //save comment
+                     comment.save();
                     campground.comments.push(comment);
                     campground.save();
+                    console.log(comment);
                     res.redirect('/campgrounds/' + campground._id);
                 }
             });

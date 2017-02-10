@@ -38,21 +38,21 @@ function seedDB() {
                         console.log(err);
                     } else {
                         console.log("added a campground");
-                       //add a few comments
-                       Comments.create(
-                           {
-                               text:"This place is greate,but I wish there was internet",
-                               author:"Evan Fung"
-                           },function(err,comment) {
-                               if(err) {
-                                   console.log(err);
-                               } else {
+                      //add a few comments
+                      Comments.create(
+                          {
+                              text:"This place is greate,but I wish there was internet",
+                              author:"Evan Fung"
+                          },function(err,comment) {
+                              if(err) {
+                                  console.log(err);
+                              } else {
                                 campground.comments.push(comment);
                                 campground.save();
                                 console.log('created new comments');
-                               }
-                           }
-                           );
+                              }
+                          }
+                          );
                     }
                 }); 
             });
