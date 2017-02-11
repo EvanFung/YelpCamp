@@ -76,9 +76,9 @@ router.put('/:id',checkCampgroundOwnership,function(req,res) {
 });
 
 
-//========================
+//=========================
 //DESTORY CAMPGROUND ROUTES
-//========================
+//=========================
 
 router.delete('/:id',checkCampgroundOwnership,function(req,res) {
     Campground.findByIdAndRemove(req.params.id,function(err) {
