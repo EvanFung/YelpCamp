@@ -9,18 +9,19 @@ var LocalStrategy = require('passport-local');
 var User = require('./models/user');
 var Comment = require('./models/comment');
 var methodOverride = require('method-override');
-
+// add flash before redirect ***
+var flash = require('connect-flash');
 
 var commentRoutes = require('./routes/comments'),
     campgroundRoutes = require('./routes/campgrounds'),
     indexRoutes = require('./routes/index');
-// seedDB(); seed the database
+//  seedDB(); //seed the database
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine","ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride("_method"));
-
+app.use(flash());
 
 //PASSPORT CONFIGURATION
 app.use(require('express-session')({
@@ -38,6 +39,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req,res,next) {
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
     next();
 });
 
